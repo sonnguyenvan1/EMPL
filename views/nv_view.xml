@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<odoo>
+    <record id="emp_pay_tree" model="ir.ui.view">
+        <field name="name">emp.pay.tree</field>
+        <field name="model">emp.pay</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="account"/>
+                <field name="department"/>
+                <field name="numb"/>
+                <field name="numa"/>
+            </tree>
+        </field>
+    </record>
+    <record id="pay_form_view" model="ir.ui.view">
+        <field name="name">emp.pay.form</field>
+        <field name="model">emp.pay</field>
+        <field name="arch" type="xml">
+            <group>
+                <field name="name"/>
+                <field name="account"/>
+                <field name="department"/>
+                <field name="numb"/>
+                <field name="req"/>
+                <field name="numa"/>
+                <field name="ly_do"/>
+            </group>
+            <form>
+                <notebook>
+                            <page name="public" string="Thông Tin Hợp Đồng">
+
+                            </page>
+                            <page name="skill-point" string="Check poin - Skill point">
+
+                            </page>
+                </notebook>
+            </form>
+        </field>
+    </record>
+</odoo>
