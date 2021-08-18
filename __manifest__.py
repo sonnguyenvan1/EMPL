@@ -11,8 +11,10 @@
 
     'data': [
     'sercurity/ir.model.access.csv',
+    'sercurity/sercurity.xml',
     'views/menu.xml',
-    'views/nv_view.xml'
+    'views/nv_view.xml',
+    'views/contracts_view.xml'
     ],
 
     'demo': [

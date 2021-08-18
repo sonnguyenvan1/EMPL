@@ -1,0 +1,22 @@
+<odoo>
+    <record id="emp_contracts_tree" model="ir.ui.view">
+        <field name="name">emp.contracts.tree</field>
+        <field name="model">emp.contracts</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                    <field name="account"/>
+                    <field name="address"/>
+                    <field name="num_tele"/>
+                    <field name="active"/>
+                    <field name="gender"/>
+                    <field name="depart"/>
+                    <field name="num_pay"/>
+                    <field name="date_ky"/>
+                    <field name="date_start"/>
+                </group>
+            </form>
+        </field>
+    </record>
+</odoo>

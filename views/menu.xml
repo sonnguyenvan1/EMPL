@@ -13,7 +13,12 @@
         <field name="type">ir.actions.act_window</field>
         <field name="view_mode">kanban,tree,form</field>
     </record>
-
+    <record id="eml_contract_view" model="ir.actions.act_window">
+        <field name="name">Contracts</field>
+        <field name="res_model">emp.contracts</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">kanban,tree,form</field>
+    </record>
 
      <menuitem id="menu_employee"
               name="Employee"
@@ -28,7 +33,12 @@
     <menuitem id="view_pay"
               name="Điều chỉnh lương"
               parent="menu_employee"
-              sequence="2"
+              sequence="3"
               action="eml_pay_view"/>
+    <menuitem id="view_contract"
+              name="Contracts"
+              parent="menu_employee"
+              sequence="2"
+              action="eml_contract_view"/>
 
 </odoo>

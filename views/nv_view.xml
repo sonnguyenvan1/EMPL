@@ -2,8 +2,19 @@
 
 
 <odoo>
-    <record id="emp_pay_tree" model="ir.ui.view">
-        <field name="name">emp.pay.tree</field>
+    <record id="pay_search_view" model="ir.ui.view">
+        <field name="name">pay.search.view</field>
+        <field name="model">emp.pay</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="department"/>
+                <field name="status"/>
+            </search>
+        </field>
+    </record>
+    <record id="pay_tree_view" model="ir.ui.view">
+        <field name="name">pay.tree.view</field>
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <tree>
@@ -12,32 +23,84 @@
                 <field name="department"/>
                 <field name="numb"/>
                 <field name="numa"/>
+                <field name="status"/>
             </tree>
         </field>
     </record>
     <record id="pay_form_view" model="ir.ui.view">
-        <field name="name">emp.pay.form</field>
+        <field name="name">pay.form.view</field>
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
-            <group>
-                <field name="name"/>
-                <field name="account"/>
-                <field name="department"/>
-                <field name="numb"/>
-                <field name="req"/>
-                <field name="numa"/>
-                <field name="ly_do"/>
-            </group>
             <form>
+                <header>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                <group>
+                    <field name="name"/>
+                    <field name="account"/>
+                    <field name="department"/>
+                    <field name="numb"/>
+                    <field name="req"/>
+                    <field name="numa"/>
+                    <field name="ly_do"/>
+                </group>
+
                 <notebook>
                             <page name="public" string="Thông Tin Hợp Đồng">
-
+                                    <group>
+                                        <field name="hop_dong"/>
+                                        <field name="date_start"/>
+                                    </group>
                             </page>
                             <page name="skill-point" string="Check poin - Skill point">
 
                             </page>
                 </notebook>
+                </sheet>
             </form>
+        </field>
+    </record>
+    <record id="inherited_emp_submit_form" model="ir.ui.view">
+        <field name="name">inherited.emp_review_form</field>
+        <field name="model">emp.pay</field>
+        <field name="inherit_id" ref="pay_form_view"/>
+        <field name="groups_id" eval="[(4, ref('group_emp_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ly_do']" position="after">
+                <form>
+                    <button name="emp_submit" type="object">Submit</button>
+                    <button name="cancel_emp_submit" type="object">Cancel</button>
+                </form>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherited_dl_submit_form" model="ir.ui.view">
+        <field name="name">inherited.dl_review_form</field>
+        <field name="model">emp.pay</field>
+        <field name="inherit_id" ref="pay_form_view"/>
+        <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ly_do']" position="after">
+                <form>
+                    <button name="dl_submit" type="object">Submit</button>
+<!--                    <button name="cancel_dl_submit" type="object">Cancel</button>-->
+                </form>
+            </xpath>
+        </field>
+    </record>
+    <record id="inherited_bod_submit_form" model="ir.ui.view">
+        <field name="name">inherited.bod_review_form</field>
+        <field name="model">emp.pay</field>
+        <field name="inherit_id" ref="pay_form_view"/>
+        <field name="groups_id" eval="[(4, ref('group_bod_user'))]"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ly_do']" position="after">
+                <form>
+                    <button name="bod_submit" type="object">Approve</button>
+<!--                    <button name="cancel_dl_submit" type="object">Cancel</button>-->
+                </form>
+            </xpath>
         </field>
     </record>
 </odoo>
