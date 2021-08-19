@@ -12,9 +12,12 @@
     'data': [
     'sercurity/ir.model.access.csv',
     'sercurity/sercurity.xml',
+
     'views/menu.xml',
     'views/nv_view.xml',
-    'views/contracts_view.xml'
+    'views/contracts_view.xml',
+
+    # 'wizard/creat_form_reject.xml'
     ],
 
     'demo': [

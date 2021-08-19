@@ -38,19 +38,31 @@ class PayModel(models.Model):
 
 
     def emp_submit(self):
-        for record in self:
-            record.state = 'dl'
+        self.state = 'dl'
+        # for record in self:
+        #     record.state = 'dl'
 
-    def cancel_emp_submit(self):
-        for record in self:
-            record.state = 'draft'
+    def std_emp_submit(self):
+        self.state = 'draft'
+        # for record in self:
+        #     record.state = 'draft'
 
     def dl_submit(self):
-        for record in self:
-            record.state = 'bod'
+        self.state = 'bod'
+        # for record in self:
+        #     record.state = 'bod'
 
-
+    def reject_dl_submit(self):
+        self.state = 'reject'
+        # for record in self:
+        #     record.state = 'reject'
 
     def bod_submit(self):
-        for record in self:
-            record.state = 'approve'
+        self.state = 'approve'
+        # for record in self:
+        #     record.state = 'approve'
+
+    def reject_bod_submit(self):
+        self.state = 'reject'
+        # for record in self:
+        #     record.state = 'reject'

@@ -3,15 +3,19 @@ access_emp_emplyee,access.emp.emplyee,model_emp_emplyee,base.group_user,1,1,1,1
 access_emp_contracts_ht,access.emp.contracts_ht,model_emp_contracts,base.group_system,1,1,1,1
 access_emp_pay_ht,access.emp.pay_ht,model_emp_pay,base.group_system,1,1,1,1
 
+
 access_emp_pay_nv,access.emp.pay_nv,model_emp_pay,EMPL.group_emp_user,1,1,1,0
 access_emp_pay_dl,access.emp.pay_dl,model_emp_pay,EMPL.group_dl_user,1,1,1,0
-access_emp_pay_bod,access.emp.pay_bod,model_emp_pay,EMPL.group_bod_user,1,1,1,1
+access_emp_pay_bod,access.emp.pay_bod,model_emp_pay,EMPL.group_bod_user,1,1,0,1
 
 
 access_emp_contracts_nv,access.emp.contracts_nv,model_emp_contracts,EMPL.group_emp_user,1,0,0,0
 access_emp_contracts_dl,access.emp.contracts_dl,model_emp_contracts,EMPL.group_dl_user,1,0,1,1
 access_emp_contracts_bod,access.emp.contracts_bod,model_emp_contracts,EMPL.group_bod_user,1,1,1,1
 
+
+access_reject_dl,access.reject.dl,model_creat_reject,EMPL.group_dl_user,1,1,1,1
+access_reject_bod,access.emp.reject.bod,model_creat_reject,EMPL.group_bod_user,1,1,1,1
 
 
 

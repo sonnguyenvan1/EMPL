@@ -43,7 +43,7 @@
     <record id="EMPL.dl_rule_pay" model="ir.rule">
         <field name="name">EMPL DL Pay</field>
         <field name="model_id" ref="model_emp_pay"/>
-        <field name="domain_force">['|',('state', '=', 'dl'),('state', '=', 'bod')]</field>
+        <field name="domain_force">[('state', '!=', 'draft')]</field>
         <field name="groups" eval="[(4, ref('group_dl_user'))]"/>
     </record>
     <record id="EMPL.bod_rule" model="ir.rule">
@@ -55,7 +55,7 @@
      <record id="EMPL.bod_rule_pay" model="ir.rule">
         <field name="name">EMPL BOD Pay</field>
         <field name="model_id" ref="model_emp_pay"/>
-        <field name="domain_force">[('state', '=', 'bod')]</field>
+        <field name="domain_force">['|',('state', '!=', 'draft'),('state', '!=', 'dl')]</field>
         <field name="groups" eval="[(4, ref('group_bod_user'))]"/>
     </record>
 

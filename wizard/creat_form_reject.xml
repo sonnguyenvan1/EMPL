@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<odoo>
+     <record id="creat_reject_form" model="ir.ui.view">
+        <field name="name">creat reject form</field>
+        <field name="model">creat.reject</field>
+        <field name="arch" type="xml">
+            <from string = "Reject">
+                <group>
+                    <field name="reject"/>
+                </group>
+                <footer>
+                    <button name="reject_dl_submit" string="Reject" type="object" class="btn-primary"/>
+                    <button string="Cancel" special = "cancel" class="btn-primary"/>
+                </footer>
+            </from>
+        </field>
+    </record>
+
+    <record id="action_creat_reject" model="ir.actions.act_window">
+        <field name="name">Creat Reject</field>
+        <field name="res_model">creat.reject</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref = "creat_reject_form" />
+        <field name="target">Reject</field>
+    </record>
+
+
+</odoo>
