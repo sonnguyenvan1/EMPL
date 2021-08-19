@@ -1,7 +1,7 @@
 {
     'name': "DCL-2",
     'version': '1.0',
-    'depends': [],
+    'depends': ['mail'],
     'author': "Author Name",
     'sequence': -10,
     'category': 'DCL',

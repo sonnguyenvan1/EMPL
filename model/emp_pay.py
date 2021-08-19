@@ -3,6 +3,7 @@ from odoo.exceptions import ValidationError
 
 class PayModel(models.Model):
     _name = "emp.pay"
+    _inherit = ['mail.thread','mail.activity.mixin']
     _description = "Pay"
 
     name = fields.Many2one('emp.contracts', string = "Employee",required=True)
@@ -27,29 +28,29 @@ class PayModel(models.Model):
 
     # , required = True, readonly = True, copy = False, tracking = True
     #draft,dl,bod
-    status = fields.Selection(selection=[
+    state = fields.Selection(selection=[
         ('reject', 'Reject'),
         ('draft', 'Draft'),
         ('dl', 'DL Review'),
         ('bod', 'BOD Review'),
         ('approve','Approve')
-    ], default='draft')
+    ], default='draft', string = 'Status',tracking = True)
 
 
     def emp_submit(self):
         for record in self:
-            record.status = 'dl'
+            record.state = 'dl'
 
     def cancel_emp_submit(self):
         for record in self:
-            record.status = 'draft'
+            record.state = 'draft'
 
     def dl_submit(self):
         for record in self:
-            record.status = 'bod'
+            record.state = 'bod'
 
 
 
     def bod_submit(self):
         for record in self:
-            record.status = 'approve'
+            record.state = 'approve'
