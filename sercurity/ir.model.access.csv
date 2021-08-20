@@ -14,8 +14,9 @@ access_emp_contracts_dl,access.emp.contracts_dl,model_emp_contracts,EMPL.group_d
 access_emp_contracts_bod,access.emp.contracts_bod,model_emp_contracts,EMPL.group_bod_user,1,1,1,1
 
 
-access_reject_dl,access.reject.dl,model_creat_reject,EMPL.group_dl_user,1,1,1,1
-access_reject_bod,access.emp.reject.bod,model_creat_reject,EMPL.group_bod_user,1,1,1,1
+access_reject_dl,access.reject.dl,model_creat_reject_wizard,EMPL.group_dl_user,1,1,1,1
+access_reject_bod,access.emp.reject.bod,model_creat_reject_wizard,EMPL.group_bod_user,1,1,1,1
+
 
 
 

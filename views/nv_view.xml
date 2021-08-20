@@ -17,6 +17,7 @@
             </search>
         </field>
     </record>
+
     <record id="pay_tree_view" model="ir.ui.view">
         <field name="name">pay.tree.view</field>
         <field name="model">emp.pay</field>
@@ -31,6 +32,7 @@
             </tree>
         </field>
     </record>
+
     <record id="pay_form_view" model="ir.ui.view">
         <field name="name">pay.form.view</field>
         <field name="model">emp.pay</field>
@@ -75,6 +77,7 @@
             </form>
         </field>
     </record>
+
     <record id="inherited_emp_submit_form" model="ir.ui.view">
         <field name="name">inherited.emp_review_form</field>
         <field name="model">emp.pay</field>
@@ -82,11 +85,12 @@
         <field name="groups_id" eval="[(4, ref('group_emp_user'))]"/>
         <field name="arch" type="xml">
             <header>
-                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" class="btn-primary" states ="draft"/>
-                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" states ="reject"/>
+                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" confirm="Are you sure?" class="btn-primary" states ="draft"/>
+                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" confirm="Are you sure?" states ="reject"/>
             </header>
         </field>
     </record>
+
     <record id="inherited_dl_submit_form" model="ir.ui.view">
         <field name="name">inherited.dl_review_form</field>
         <field name="model">emp.pay</field>
@@ -94,11 +98,12 @@
         <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>
         <field name="arch" type="xml">
             <header>
-                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" class="btn-primary" states ="dl"/>
-                    <button id = "id_reject_submit" name="reject_dl_submit" string="Reject" type="object" states ="dl"/>
+                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" confirm="Are you sure?" class="btn-primary" states ="dl"/>
+                    <button id = "id_reject_submit" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>
             </header>
         </field>
     </record>
+
     <record id="inherited_bod_submit_form" model="ir.ui.view">
         <field name="name">inherited.bod_review_form</field>
         <field name="model">emp.pay</field>
@@ -106,8 +111,8 @@
         <field name="groups_id" eval="[(4, ref('group_bod_user'))]"/>
         <field name="arch" type="xml">
             <header>
-                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" class="btn-primary" states ="bod"/>/>
-                    <button id = "id_reject_submit" name="reject_bod_submit" string="Reject" type="object" states ="bod"/>
+                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" confirm="Are you sure?" class="btn-primary" states ="bod"/>
+                    <button id = "id_reject_bod" name="reject_bod_submit" string="Reject" type="object" states ="bod"/>
             </header>
         </field>
     </record>

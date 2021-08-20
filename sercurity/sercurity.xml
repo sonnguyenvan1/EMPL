@@ -45,6 +45,10 @@
         <field name="model_id" ref="model_emp_pay"/>
         <field name="domain_force">[('state', '!=', 'draft')]</field>
         <field name="groups" eval="[(4, ref('group_dl_user'))]"/>
+            <field eval="1" name="perm_read"/>
+            <field eval="1" name="perm_create"/>
+            <field eval="0" name="perm_write"/>
+            <field eval="0" name="perm_unlink"/>
     </record>
     <record id="EMPL.bod_rule" model="ir.rule">
         <field name="name">EMPL BOD</field>
