@@ -1,41 +1,60 @@
-from odoo import fields, models,api
+from docutils.nodes import field_name
+from odoo import fields, models, api
 from odoo.exceptions import ValidationError
+
 
 class PayModel(models.Model):
     _name = "emp.pay"
-    _inherit = ['mail.thread','mail.activity.mixin']
-    _description = "Pay"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
+    _description = "Salary Employee"
 
-    name = fields.Many2one('emp.contracts', string = "Employee",required=True)
-    id_user = fields.Many2one('res.users', string='USER Related',default = lambda seft:seft.env.user,required=True)
-    department = fields.Selection(string="Department ",related = 'name.depart')
-    account = fields.Many2one(string = 'Account ',related = "name.account")
-    numb = fields.Integer(string='Mức Lương Hiện Tại ',related = 'name.num_pay', default=0)
-    req = fields.Date(string="Ngày Điều Chỉnh Lương Gần Nhất ", default=fields.Date.today())
-    numa = fields.Integer(string='Mức Lương Đề Xuất ', default=0,required=True)
-    ly_do = fields.Text(string = 'Lý do điều chỉnh ',required=True)
-    active = fields.Boolean('Active', default=True, tracking=True)
-    # thong tin hop dong
-    hop_dong = fields.Char("Hợp Đồng")
-    # date_ky = fields.Date("Start Date",related = 'name.date_ky')
-    date_start = fields.Date("Start Date", related='name.date_start')
+    resource_id = fields.Many2one('resource.resource')
+    employee_id = fields.Many2one('hr.employee', string='Employee', tracking=True)
+    contracts_id = fields.Many2one('hr.contract', string='Hợp Đồng', tracking=True)
+    user_id = fields.Many2one(related='employee_id.user_id', store=True, readonly=True,
+                              string='Account')
+    department_id = fields.Many2one('hr.department', compute='_compute_employee_salary', store=True, readonly=True,
+                                    string="Department")
+    job_id = fields.Many2one('hr.job', compute='_compute_employee_salary', store=True, readonly=True,
+                             string='Job Position')
+    job_title = fields.Char('Job Title', related='employee_id.job_title', readonly=False, related_sudo=False)
+    wage = fields.Many2one('hr.contract', compute='_compute_contract_salary', store=True, readonly=True,
+                           string="Mức lương hiện tại")
+    req = fields.Date(string="Ngày Điều Chỉnh Lương Gần Nhất ")
+    numa = fields.Integer(string='Mức Lương Đề Xuất ', default=0, required=True)
+    ly_do = fields.Text(string='Lý do điều chỉnh ', required=True)
+    # name_contract = fields.Many2one('hr.contract',)
 
-    @api.constrains('req')
-    def _check_date(self):
-        for i in self:
-            if i.req > fields.Date.today():
-                raise ValidationError("Ngày chưa tồn tại")
+    # wage = fields.Monetary(string="Lương hiện tại", readonly=True)
 
-    # , required = True, readonly = True, copy = False, tracking = True
-    #draft,dl,bod
+    # @api.onchange('employee_id')
+    # def _compute_wage(self):
+    #     contract = self.env['hr.contract'].sudo().search(
+    #         [('contracts_id', '=', self.contracts_id.id), ('state', '=', 'open')])
+    #     if contract:
+    #         self.wage = contract[0].wage
+
+    # draft,dl,bod
     state = fields.Selection(selection=[
         ('reject', 'Reject'),
         ('draft', 'Draft'),
         ('dl', 'DL Review'),
         ('bod', 'BOD Review'),
-        ('approve','Approve')
-    ], default='draft', string = 'Status',tracking = True)
+        ('approve', 'Approve')
+    ], default='draft', string='Status', track_visibility='onchange')
 
+    @api.depends('contracts_id')
+    def _compute_contract_salary(self):
+        for d in self.filtered('contracts_id'):
+            d.wage = d.contracts_id.wage
+
+    @api.depends('employee_id')
+    def _compute_employee_salary(self):
+        for d in self.filtered('employee_id'):
+            d.job_id = d.employee_id.job_id
+            # d.job_title = d.employee_id.job_title
+            d.department_id = d.employee_id.department_id
+            # d.wage_agreement = d.employee_id.wage_agreement
 
     def emp_submit(self):
         for record in self:

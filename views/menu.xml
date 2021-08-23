@@ -40,8 +40,8 @@
               action="eml_employee_view"/>
     <menuitem id="view_pay"
               name="Điều chỉnh lương"
-              parent="menu_employee"
-              sequence="3"
+              parent="hr.menu_hr_root"
+              sequence="99"
               action="eml_pay_view"/>
     <menuitem id="view_contract"
               name="Contracts"

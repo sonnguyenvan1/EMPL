@@ -4,7 +4,8 @@
      <record id="creat_reject_form" model="ir.ui.view">
         <field name="name">creat.reject.form</field>
         <field name="model">creat.reject.wizard</field>
-         <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>
+<!--         <field name="context">{'default_employee_id' = active}</field>-->
+<!--         <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>-->
         <field name="arch" type="xml">
             <form>
 

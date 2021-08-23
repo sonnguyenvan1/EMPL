@@ -1,7 +1,7 @@
 {
     'name': "DCL-2",
     'version': '1.0',
-    'depends': ['mail'],
+    'depends': ['mail','hr_contract'],
     'author': "Author Name",
     'sequence': -10,
     'category': 'DCL',
@@ -16,6 +16,7 @@
     'views/menu.xml',
     'views/nv_view.xml',
     'views/contracts_view.xml',
+    # 'views/inh_contract_view.xml',
 
     'wizard/creat_form_reject.xml'
     ],

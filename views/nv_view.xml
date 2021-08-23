@@ -7,8 +7,8 @@
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <search string = 'Salary'>
-                <field name="name"/>
-                <field name="department"/>
+                <field name="employee_id"/>
+                <field name="department_id"/>
                 <field name="state"/>
                 <separator/>
                 <group expand="0" string="Group By">
@@ -23,11 +23,11 @@
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="name"/>
-                <field name="account"/>
-                <field name="department"/>
-                <field name="numb" string = 'Lương trước điều chỉnh'/>
-                <field name="numa" string="Lương sau điều chỉnh"/>
+                <field name="employee_id"/>
+<!--                <field name="account"/>-->
+                <field name="department_id"/>
+<!--                <field name="numb" string = 'Lương trước điều chỉnh'/>-->
+<!--                <field name="numa" string="Lương sau điều chỉnh"/>-->
                 <field name="state"/>
             </tree>
         </field>
@@ -39,35 +39,38 @@
         <field name="arch" type="xml">
             <form class="o_lead_opportunity_form">
                 <header>
-<!--                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" class="btn-primary" states ="draft"/>-->
-<!--                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" class="btn-primary" states ="dl"/>-->
-<!--                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" class="btn-primary" states ="bod"/>-->
-<!--                    <button id = "id_reject_submit" name="reject_bod_submit" string="Reject" type="object" states ="dl,bod"/>-->
-<!--                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" states ="reject"/>-->
+                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" class="btn-primary" states ="draft"/>
+                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" class="btn-primary" states ="dl"/>
+                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" class="btn-primary" states ="bod"/>
+                    <button id = "id_reject_bod" name="reject_bod_submit" string="Reject" type="object" states ="bod"/>
+                    <button id = "id_reject_dl" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>
+                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" states ="reject"/>
                     <field name="state" widget="statusbar" statusbar_visible = "draft,dl,bod,approve"/>
                 </header>
                 <sheet>
-                <group>
-                    <field name="name"/>
-                    <field name="account"/>
-                    <field name="department"/>
-                    <field name="numb"/>
-                    <field name="req"/>
-                    <field name="numa"/>
-                    <field name="ly_do"/>
-                </group>
+                    <group>
+                        <field name="employee_id"/>
+                        <field name="user_id"/>
+                        <field name="department_id"/>
+                        <field name="job_id"/>
+                        <field name="job_title"/>
+                        <field name="wage"/>
+                        <field name="req"/>
+                        <field name="numa"/>
+                        <field name="ly_do"/>
+                    </group>
 
-                <notebook>
+                    <notebook>
                             <page name="public" string="Thông Tin Hợp Đồng">
                                     <group>
-                                        <field name="hop_dong"/>
-                                        <field name="date_start"/>
+                                        <field name="contracts_id"/>
+<!--                                        <field name="date_start"/>-->
                                     </group>
                             </page>
                             <page name="skill-point" string="Check poin - Skill point">
 
                             </page>
-                </notebook>
+                    </notebook>
                 </sheet>
                 <div class="oe_chatter">
                         <field name="message_follower_ids"/>
@@ -78,42 +81,42 @@
         </field>
     </record>
 
-    <record id="inherited_emp_submit_form" model="ir.ui.view">
-        <field name="name">inherited.emp_review_form</field>
-        <field name="model">emp.pay</field>
-        <field name="inherit_id" ref="pay_form_view"/>
-        <field name="groups_id" eval="[(4, ref('group_emp_user'))]"/>
-        <field name="arch" type="xml">
-            <header>
-                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" confirm="Are you sure?" class="btn-primary" states ="draft"/>
-                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" confirm="Are you sure?" states ="reject"/>
-            </header>
-        </field>
-    </record>
+<!--    <record id="inherited_emp_submit_form" model="ir.ui.view">-->
+<!--        <field name="name">inherited.emp_review_form</field>-->
+<!--        <field name="model">emp.pay</field>-->
+<!--        <field name="inherit_id" ref="pay_form_view"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('group_emp_user'))]"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <header>-->
+<!--                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" confirm="Are you sure?" class="btn-primary" states ="draft"/>-->
+<!--                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" confirm="Are you sure?" states ="reject"/>-->
+<!--            </header>-->
+<!--        </field>-->
+<!--    </record>-->
 
-    <record id="inherited_dl_submit_form" model="ir.ui.view">
-        <field name="name">inherited.dl_review_form</field>
-        <field name="model">emp.pay</field>
-        <field name="inherit_id" ref="pay_form_view"/>
-        <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>
-        <field name="arch" type="xml">
-            <header>
-                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" confirm="Are you sure?" class="btn-primary" states ="dl"/>
-                    <button id = "id_reject_submit" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>
-            </header>
-        </field>
-    </record>
+<!--    <record id="inherited_dl_submit_form" model="ir.ui.view">-->
+<!--        <field name="name">inherited.dl_review_form</field>-->
+<!--        <field name="model">emp.pay</field>-->
+<!--        <field name="inherit_id" ref="pay_form_view"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <header>-->
+<!--                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" confirm="Are you sure?" class="btn-primary" states ="dl,draft"/>-->
+<!--                    <button id = "id_reject_submit" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>-->
+<!--            </header>-->
+<!--        </field>-->
+<!--    </record>-->
 
-    <record id="inherited_bod_submit_form" model="ir.ui.view">
-        <field name="name">inherited.bod_review_form</field>
-        <field name="model">emp.pay</field>
-        <field name="inherit_id" ref="pay_form_view"/>
-        <field name="groups_id" eval="[(4, ref('group_bod_user'))]"/>
-        <field name="arch" type="xml">
-            <header>
-                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" confirm="Are you sure?" class="btn-primary" states ="bod"/>
-                    <button id = "id_reject_bod" name="reject_bod_submit" string="Reject" type="object" states ="bod"/>
-            </header>
-        </field>
-    </record>
+<!--    <record id="inherited_bod_submit_form" model="ir.ui.view">-->
+<!--        <field name="name">inherited.bod_review_form</field>-->
+<!--        <field name="model">emp.pay</field>-->
+<!--        <field name="inherit_id" ref="pay_form_view"/>-->
+<!--        <field name="groups_id" eval="[(4, ref('group_bod_user'))]"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <header>-->
+<!--                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" confirm="Are you sure?" class="btn-primary" states ="bod"/>-->
+<!--                    <button id = "id_reject_bod" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="bod"/>-->
+<!--            </header>-->
+<!--        </field>-->
+<!--    </record>-->
 </odoo>
