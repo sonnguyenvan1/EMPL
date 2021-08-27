@@ -75,10 +75,10 @@ class PayModel(models.Model):
                 raise ValidationError(_("Ban chi duoc xoa ban ghi o draft"))
         return super(PayModel, self).unlink()
 
-    # @api.depends('wage', 'numa')
-    # def _compute_ratio(self):
-    #     for d in self:
-    #         d.ratio = (abs(d.numa - d.wage) * 100) / d.wage
+    @api.depends('wage', 'numa')
+    def _compute_ratio(self):
+        for d in self:
+            d.ratio = (abs(d.numa - d.wage) * 100) / d.wage
 
     @api.onchange('employee_id')
     def _onchange_contract_id(self):
