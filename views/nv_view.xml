@@ -7,12 +7,15 @@
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <search string = 'Salary'>
+                <field name="name"/>
                 <field name="employee_id"/>
                 <field name="department_id"/>
                 <field name="state"/>
                 <separator/>
                 <group expand="0" string="Group By">
-                     <filter name="state_search" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="state_search" string="Status" context="{'group_by': 'state'}"/>
+                    <filter name="jobp_search" string="Job Position" context="{'group_by': 'job_id'}"/>
+                    <filter name="company_search" string="Company" context="{'group_by': 'company_id'}"/>
                 </group>
             </search>
         </field>
@@ -23,100 +26,115 @@
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="employee_id"/>
-<!--                <field name="account"/>-->
-                <field name="department_id"/>
-<!--                <field name="numb" string = 'Lương trước điều chỉnh'/>-->
-<!--                <field name="numa" string="Lương sau điều chỉnh"/>-->
+                <field name="employee_id" string = 'Nhân viên'/>
+                <field name="user_id" string = 'Tài khoản'/>
+                <field name="job_id" string = 'Chức danh'/>
+                <field name="department_id" string = 'Đơn vị'/>
+                <field name="wage" string = 'Lương trước điều chỉnh'/>
+                <field name="numa" string="Lương sau điều chỉnh"/>
+                <field name="ratio"/>
                 <field name="state"/>
             </tree>
         </field>
     </record>
 
-    <record id="pay_form_view" model="ir.ui.view">
-        <field name="name">pay.form.view</field>
+    <record id="salary_form_view" model="ir.ui.view">
+        <field name="name">salary.form.view</field>
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
-            <form class="o_lead_opportunity_form">
+            <form>
                 <header>
-                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" class="btn-primary" states ="draft"/>
-                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" class="btn-primary" states ="dl"/>
-                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" class="btn-primary" states ="bod"/>
-                    <button id = "id_reject_bod" name="reject_bod_submit" string="Reject" type="object" states ="bod"/>
-                    <button id = "id_reject_dl" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>
-                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" states ="reject"/>
+                    <button id = "id_emp_submit" name="action_submit" string="Submit" type="object" class="btn-primary"
+                            attrs="{'invisible': [('state', '!=', 'draft')]}"/>
+                    <button id = "id_aproved" name="action_approved" string="Approved" type="object" class="btn-primary"
+                            attrs="{'invisible': ['|',('state', 'not in', ['bod', 'dl']), ('permission_view_action', '=', 'False')]}"
+                        groups="EMPL.group_bod_user,EMPL.group_dl_user"/>
+                    <button id = "id_reject_bod" name="action_reject" string="Reject"  groups="EMPL.group_bod_user,EMPL.group_dl_user" type="object"
+                            attrs="{'invisible': ['|', ('state', 'not in', ['bod', 'dl']), ('permission_view_action', '=', 'False')]}"/>
+                    <button id = "id_set_to_draft" name="std_emp_submit" string="Save to Draft" type="object" attrs="{'invisible': [('state', '!=', 'reject')]}"/>
                     <field name="state" widget="statusbar" statusbar_visible = "draft,dl,bod,approve"/>
                 </header>
                 <sheet>
                     <group>
-                        <field name="employee_id"/>
-                        <field name="user_id"/>
-                        <field name="department_id"/>
-                        <field name="job_id"/>
-                        <field name="job_title"/>
-                        <field name="wage"/>
-                        <field name="req"/>
-                        <field name="numa"/>
-                        <field name="ly_do"/>
+                         <group>
+                             <field name="permission_view_action" invisible="1"/>
+                            <field name="employee_id"  required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="user_id" force_save ='1'/>
+                            <field name="department_id"/>
+                            <field name="job_id" force_save ='1'/>
+                            <field name="job_title"/>
+                         </group>
+                         <group>
+                            <label for="wage"  required="1" />
+                                        <div class="o_row" name="wage">
+                                            <field name="wage" nolabel="1" force_save ='1'/>
+                                            <span>đ</span>
+                                        </div>
+                            <label for="numa" />
+                                        <div class="o_row" name="numa">
+                                            <field name="numa" nolabel="1" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                                            <span>đ</span>
+                                        </div>
+                            <field name="ratio"/>
+                            <field name="req"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                            <field name="ly_do"  required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+                          </group>
                     </group>
-
                     <notebook>
                             <page name="public" string="Thông Tin Hợp Đồng">
+                                <group>
                                     <group>
-                                        <field name="contracts_id"/>
-<!--                                        <field name="date_start"/>-->
+                                        <field name="name" force_save ='1'/>
+                                        <field name="start_date" force_save ='1'/>
+                                        <label for="end_date" force_save ='1'/>
+                                        <div class="o_row">
+                                            <field name="end_date" nolabel="1" force_save ='1'/>
+                                            <span class="text-muted">(If fixed-term contract)</span>
+                                        </div>
+                                        <field name="resource_calendar_id"/>
                                     </group>
-                            </page>
-                            <page name="skill-point" string="Check poin - Skill point">
-
+                                    <group>
+                                        <field name="structure_type_id" force_save ='1'/>
+                                    </group>
+                                </group>
                             </page>
                     </notebook>
                 </sheet>
                 <div class="oe_chatter">
                         <field name="message_follower_ids"/>
-                        <field name="activity_ids"/>
+                        <field name="activity_ids" widget="mail_activity"/>
                         <field name="message_ids" />
                 </div>
             </form>
         </field>
     </record>
+    <record id="reject_dl_view_form" model="ir.ui.view">
+            <field name="name">reject.dl.form</field>
+            <field name="model">emp.pay</field>
+            <field name="active">false</field>
+            <field name="arch" type="xml">
+                <form string="Reject" create="false" delete="false">
+                        <field name="notes" required="1" modifiers="{'required':true}"/>
+                    <footer>
+                        <button name="reject_dl_submit" string="Reject" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+    </record>
 
-<!--    <record id="inherited_emp_submit_form" model="ir.ui.view">-->
-<!--        <field name="name">inherited.emp_review_form</field>-->
-<!--        <field name="model">emp.pay</field>-->
-<!--        <field name="inherit_id" ref="pay_form_view"/>-->
-<!--        <field name="groups_id" eval="[(4, ref('group_emp_user'))]"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <header>-->
-<!--                    <button id = "id_emp_submit" name="emp_submit" string="Submit DL" type="object" confirm="Are you sure?" class="btn-primary" states ="draft"/>-->
-<!--                    <button id = "id_set_to_draft" name="std_emp_submit" string="set to Draft" type="object" confirm="Are you sure?" states ="reject"/>-->
-<!--            </header>-->
-<!--        </field>-->
-<!--    </record>-->
-
-<!--    <record id="inherited_dl_submit_form" model="ir.ui.view">-->
-<!--        <field name="name">inherited.dl_review_form</field>-->
-<!--        <field name="model">emp.pay</field>-->
-<!--        <field name="inherit_id" ref="pay_form_view"/>-->
-<!--        <field name="groups_id" eval="[(4, ref('group_dl_user'))]"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <header>-->
-<!--                    <button id = "id_dl_submit" name="dl_submit" string="Submit BOD" type="object" confirm="Are you sure?" class="btn-primary" states ="dl,draft"/>-->
-<!--                    <button id = "id_reject_submit" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="dl"/>-->
-<!--            </header>-->
-<!--        </field>-->
-<!--    </record>-->
-
-<!--    <record id="inherited_bod_submit_form" model="ir.ui.view">-->
-<!--        <field name="name">inherited.bod_review_form</field>-->
-<!--        <field name="model">emp.pay</field>-->
-<!--        <field name="inherit_id" ref="pay_form_view"/>-->
-<!--        <field name="groups_id" eval="[(4, ref('group_bod_user'))]"/>-->
-<!--        <field name="arch" type="xml">-->
-<!--            <header>-->
-<!--                    <button id = "id_bod_submit" name="bod_submit" string="Approve" type="object" confirm="Are you sure?" class="btn-primary" states ="bod"/>-->
-<!--                    <button id = "id_reject_bod" name="%(EMPL.action_creat_reject)d" string="Reject" type="action" states ="bod"/>-->
-<!--            </header>-->
-<!--        </field>-->
-<!--    </record>-->
+    <record id="reject_bod_view_form" model="ir.ui.view">
+            <field name="name">reject.bod.form</field>
+            <field name="model">emp.pay</field>
+            <field name="active">false</field>
+            <field name="arch" type="xml">
+                <form string="Reject" create="false" delete="false">
+                        <field name="notes" required="1" modifiers="{'required':true}"/>
+                    <footer>
+                        <button name="reject_bod_submit" string="Reject" type="object" class="oe_highlight"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+    </record>
 </odoo>
