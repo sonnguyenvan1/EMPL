@@ -63,7 +63,7 @@
             <field name="model_id" ref="model_emp_pay"/>
             <field name="subject">HR APPROVE</field>
             <field name="email_from">${'no-reply@vti.com.vn'}</field>
-            <field name="email_to">${object.manager_id.parent_id.work_email}</field>
+            <field name="email_to">${object.hr_responsible.work_email}</field>
             <field name="body_html" type="html">
                 <p>Dear anh/chi,</p>
                 <p>De xuat dieu chinh luong cua nhan vien ${object.employee_id.name} da duoc approve</p>

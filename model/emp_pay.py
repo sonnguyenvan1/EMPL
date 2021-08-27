@@ -9,20 +9,20 @@ class PayModel(models.Model):
     _description = "Salary Employee"
 
     resource_id = fields.Many2one('resource.resource')
-    employee_id = fields.Many2one('hr.employee', string='Employee', tracking=True,
+    employee_id = fields.Many2one('hr.employee', string = 'Nhân viên', tracking=True,
                                   default=lambda self: self.env.user.employee_id,
                                   domain="['|', ('department_id', '=', False), ('department_id', '=', department_id)]")
     name = fields.Char(string='Hợp Đồng', store=True, readonly=True)
     work_email = fields.Char(string='Email', related='employee_id.work_email', store=True, readonly=True)
     user_id = fields.Many2one(related='employee_id.user_id', store=True,
-                              string='Account')
+                              string = 'Tài khoản')
     department_id = fields.Many2one('hr.department', compute='_compute_employee_salary', store=True, readonly=True,
-                                    string="Department")
+                                    string = 'Đơn vị')
     manager_id = fields.Many2one('hr.employee', related='employee_id.parent_id.parent_id', store=True, readonly=True,
                                  string="Manager")
     job_id = fields.Many2one('hr.job', compute='_compute_employee_salary', store=True, readonly=True,
-                             string='Job Position')
-    job_title = fields.Char('Job Title', related='employee_id.job_title', store=True)
+                             string = 'Vị trí công việc')
+    job_title = fields.Char('Chức vụ', related='employee_id.job_title', store=True)
     parent_id = fields.Many2one('hr.employee', related='employee_id.parent_id')
     company_id = fields.Many2one('res.company', string='Company', related='employee_id.company_id', related_sudo=True,
                                  store=True, readonly=True)
@@ -30,16 +30,17 @@ class PayModel(models.Model):
     ly_do = fields.Text(string='Lý do điều chỉnh ', required=True, tracking=True)
     start_date = fields.Date(string="Ngày bắt đầu", store=True, readonly=True)
     end_date = fields.Date(string="Ngày kết thúc", store=True, readonly=True)
-    resource_calendar_id = fields.Many2one(related='employee_id.resource_calendar_id', string='Working Schedule',
+    resource_calendar_id = fields.Many2one(related='employee_id.resource_calendar_id', string='Lịch làm việc',
                                            readonly=True, store=True)
-    structure_type_id = fields.Many2one('hr.payroll.structure.type', string="Salary Structure", store=True,
+    structure_type_id = fields.Many2one('hr.payroll.structure.type', string="Cơ cấu tiền lương", store=True,
                                         readonly=True)
     currency_id = fields.Many2one('res.currency', string="Currency")
     wage = fields.Integer(string="Mức lương hiện tại", readonly=True, store=True)
     child_ids = fields.One2many('hr.employee', 'parent_id')
     notes = fields.Text()
-
-    ratio = fields.Float(string="Tỉ lệ điều chỉnh",compute='_compute_ratio',readonly=True, store=True)
+    hr_responsible = fields.Many2one('res.users', store=True,
+                                        readonly=True)
+    ratio = fields.Float(string="Tỉ lệ điều chỉnh", compute='_compute_ratio',readonly=True, store=True)
     req = fields.Date(string="Ngày điều chỉnh lương gần nhất ", store=True, readonly=True)
 
     state = fields.Selection(selection=[
@@ -90,6 +91,7 @@ class PayModel(models.Model):
             self.name = contract[0].name
             self.structure_type_id = contract[0].structure_type_id
             self.wage = contract[0].wage
+            self.hr_responsible = contract[0].hr_responsible_id
 
 
     @api.depends('employee_id')

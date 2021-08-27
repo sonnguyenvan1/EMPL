@@ -26,10 +26,10 @@
         <field name="model">emp.pay</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="employee_id" string = 'Nhân viên'/>
-                <field name="user_id" string = 'Tài khoản'/>
-                <field name="job_id" string = 'Chức danh'/>
-                <field name="department_id" string = 'Đơn vị'/>
+                <field name="employee_id" />
+                <field name="user_id"/>
+                <field name="job_id"/>
+                <field name="department_id"/>
                 <field name="wage" string = 'Lương trước điều chỉnh'/>
                 <field name="numa" string="Lương sau điều chỉnh"/>
                 <field name="ratio"/>
@@ -75,7 +75,11 @@
                                             <field name="numa" nolabel="1" required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                                             <span>đ</span>
                                         </div>
-                            <field name="ratio"/>
+                            <label for="ratio"  required="1" />
+                                        <div class="o_row" name="ratio">
+                                            <field name="ratio" nolabel="1"/>
+                                            <span>%</span>
+                                        </div>
                             <field name="req"  attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                             <field name="ly_do"  required="1" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
                           </group>
